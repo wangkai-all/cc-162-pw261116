@@ -32,3 +32,10 @@ test-results/
 *.sqlite3-shm
 *.sqlite3-journal
 !*.traineddata.gz
+
+# dlcatalog runtime artifacts
+/fixtures/
+/exports/
+/runtime/
+/server-state.json
+.pytest_cache/

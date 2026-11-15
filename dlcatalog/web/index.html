@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Collection Catalog</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>Digital Collection Catalog</h1>
+    <div class="harvest-bar">
+      <input id="seed-url" type="url" size="48"
+             placeholder="http://127.0.0.1:8090/collections/root.json">
+      <button id="btn-crawl">Crawl / resume</button>
+      <button id="btn-refetch-all">Re-fetch all (revision check)</button>
+      <button id="btn-export">Export catalog JSON</button>
+    </div>
+    <div id="status" class="status" aria-live="polite"></div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="graph">Discovery graph</button>
+    <button class="tab" data-tab="failures">Failed nodes <span id="fail-badge" class="badge hidden">0</span></button>
+    <button class="tab" data-tab="manifests">Harvested manifests</button>
+    <button class="tab" data-tab="changes">Manifest changes <span id="change-badge" class="badge hidden">0</span></button>
+    <button class="tab" data-tab="runs">Runs</button>
+  </nav>
+
+  <main>
+    <section id="tab-graph" class="tab-panel active">
+      <p class="hint">Every edge is a “contained in” relationship. Click a node to inspect its source paths, metadata and images; use <em>Re-fetch</em> to retry a single node.</p>
+      <div id="graph" class="graph"></div>
+    </section>
+
+    <section id="tab-failures" class="tab-panel">
+      <table>
+        <thead><tr><th>URL</th><th>HTTP</th><th>Error</th><th>Attempts</th><th>Last tried</th><th></th></tr></thead>
+        <tbody id="failures-body"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-manifests" class="tab-panel">
+      <table>
+        <thead><tr><th>Title (all languages)</th><th>Type</th><th>URL</th><th>Title source</th><th>Images</th><th>Collections containing it</th><th>Fetched</th></tr></thead>
+        <tbody id="manifests-body"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-changes" class="tab-panel">
+      <div class="filter-bar">
+        <label>Run: <select id="change-run"><option value="">all runs</option></select></label>
+        <label>Kind:
+          <select id="change-kind">
+            <option value="">all</option>
+            <option value="added">added</option>
+            <option value="removed">removed</option>
+            <option value="metadata_changed">metadata changed</option>
+          </select>
+        </label>
+      </div>
+      <table>
+        <thead><tr><th>Kind</th><th>Document</th><th>Resource</th><th>Detail</th><th>Run</th></tr></thead>
+        <tbody id="changes-body"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-runs" class="tab-panel">
+      <table>
+        <thead><tr><th>#</th><th>Mode</th><th>Seed</th><th>Status</th><th>Fetched</th><th>Failed</th><th>Changed</th><th>Started</th><th>Finished</th></tr></thead>
+        <tbody id="runs-body"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <button id="modal-close" class="modal-close">×</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
